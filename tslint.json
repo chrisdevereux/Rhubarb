@@ -1,0 +1,15 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rules": {
+    "member-access": false,
+    "no-empty-interface": false,
+    "interface-name": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "config/**",
+      "node_modules/**",
+      "coverage/**"
+    ]
+  }
+}

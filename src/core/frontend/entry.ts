@@ -17,7 +17,7 @@ function entry({ app, dev }: WebpackConfigProps) {
         React.createElement(
           BrowserRouter,
           {},
-          React.createElement(App, { routes })
+          React.createElement(App, { routes: routes, initialData: __INITIAL_DATA__ })
         ),
         document.getElementById('root'),
       )

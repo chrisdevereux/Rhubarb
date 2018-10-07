@@ -16,7 +16,8 @@ export function createWebpackConfig({ dev, app }: WebpackConfigProps): webpack.C
 
     output: {
       path: resolve('dist'),
-      filename: 'bundle.js'
+      filename: 'bundle.js',
+      publicPath: '/'
     },
   
     module: {

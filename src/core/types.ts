@@ -1,3 +1,5 @@
+import { Data } from './datasource/Data';
+
 export interface Application {
   modules: Module[]
 }
@@ -7,11 +9,11 @@ export interface Module {
   pages?: Page[]
 }
 
-export interface Page {
+export interface Page<T = {}> {
   id: string
   pattern: string
   source: string
-  data?: (params: any) => void
+  data?: (params: Record<string, string>) => Data<T>
 }
 
 export interface AppDescriptor {

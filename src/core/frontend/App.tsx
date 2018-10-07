@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router";
 
 interface AppProps {
   routes: RouteDescriptor[]
+  initialData: {}
 }
 
 export interface RouteDescriptor {
@@ -10,9 +11,10 @@ export interface RouteDescriptor {
   source: AsyncRoute
 }
 
-type AsyncRoute = () => Promise<{ default: React.ComponentType }>
+type AsyncRoute = () => Promise<{ default: PageComponent }>
+type PageComponent<Data = any> = React.ComponentType<{ data: Data }>
 
-export function App({ routes }: AppProps) {
+export function App({ routes, initialData }: AppProps) {
   return (
     <Switch>
     {
@@ -21,6 +23,7 @@ export function App({ routes }: AppProps) {
           <RouteComponent
             route={source}
             pattern={pattern}
+            data={initialData}
           />
         </Route>
       ))
@@ -32,14 +35,15 @@ export function App({ routes }: AppProps) {
 interface RouteComponentProps {
   pattern: string
   route: AsyncRoute
+  data: {}
 }
 
 interface RouteComponentState {
-  route?: React.ComponentType
+  route?: PageComponent
 }
 
 export class RouteComponent extends React.Component<RouteComponentProps, RouteComponentState> {
-  static async preload(props: RouteComponentProps) {
+  static async preload(props: { pattern: string, route: AsyncRoute }) {
     let route = RouteComponent.cache.get(props.pattern)
     if (route) {
       return route
@@ -51,7 +55,7 @@ export class RouteComponent extends React.Component<RouteComponentProps, RouteCo
     return route
   }
 
-  private static cache = new Map<string, React.ComponentType>()
+  private static cache = new Map<string, PageComponent>()
 
   state: RouteComponentState = {
     route: RouteComponent.cache.get(this.props.pattern)
@@ -62,7 +66,11 @@ export class RouteComponent extends React.Component<RouteComponentProps, RouteCo
   }
 
   render() {
-    return this.state.route && <this.state.route /> || null
+    if (!this.state.route) {
+      console.warn(`Page bundle for ${this.props.pattern} has not yet been loaded`)
+    }
+console.log(this.state.route)
+    return this.state.route && <this.state.route data={this.props.data} /> || null
   }
 }
 

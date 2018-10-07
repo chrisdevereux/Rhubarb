@@ -9,5 +9,8 @@
       "esnext",
       "dom"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -18,7 +18,7 @@ export class DevServerTask extends Task {
       before: server => {
         server.use(pageServer)
       },
-      hot: true
+      hot: true,
     })
 
     devserver.listen(3000)

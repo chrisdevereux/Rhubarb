@@ -1,6 +1,7 @@
 import { join } from "path";
+import { Application } from '../../types';
 
 export class Task {
   development = process.env.NODE_ENV !== 'production'
-  app = require(join(process.cwd(), 'app')).default
+  app: Application = require(join(process.cwd(), 'app')).default
 }

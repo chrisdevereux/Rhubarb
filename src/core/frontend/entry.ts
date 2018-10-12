@@ -1,10 +1,12 @@
+import * as serializeJavascript from 'serialize-javascript'
 import { Application } from "../types";
 import { WebpackConfigProps } from "./createWebpackConfig";
 
-function entry({ app, dev }: WebpackConfigProps) {
+function entry({ app, dev, appProps }: WebpackConfigProps) {
   return {
     code: `
-      import { App } from '${require.resolve('./App')}'
+      import { App } from './App'
+      import { ClientRouter } from './ClientRouter'
       import { hydrate } from 'emotion'
       import * as React from 'react'
       import { BrowserRouter } from "react-router-dom";
@@ -16,12 +18,19 @@ function entry({ app, dev }: WebpackConfigProps) {
       render(
         React.createElement(
           BrowserRouter,
-          {},
-          React.createElement(App, { routes: routes, initialData: __INITIAL_DATA__ })
+          ${serializeJavascript(appProps)},
+          React.createElement(
+            App,
+            clientConfiguration,
+            React.createElement(
+              ClientRouter,
+              { routes: routes, initialData: __INITIAL_DATA__ }
+            )
+          )
         ),
-        document.getElementById('root'),
+        document.getElementById('root')
       )
-    `.trim()
+    `
   }
 }
 

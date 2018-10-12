@@ -8,7 +8,10 @@ export class DevServerTask extends Task {
   packager = webpack(
     createWebpackConfig({
       dev: true,
-      app: this.app
+      app: this.app,
+      appProps: {
+        theme: this.app.theme
+      }
     })
   )
 

@@ -1,10 +1,12 @@
 import { resolve } from 'path'
 import * as webpack from 'webpack'
 import { Application } from '../types'
+import { AppProps } from './App';
 
 export interface WebpackConfigProps {
   app: Application
   dev: boolean
+  appProps: AppProps
 }
 
 export function createWebpackConfig({ dev, app }: WebpackConfigProps): webpack.Configuration {
@@ -22,7 +24,6 @@ export function createWebpackConfig({ dev, app }: WebpackConfigProps): webpack.C
   
     module: {
       rules: [
-        
         {
           test: entry,
           loaders: [

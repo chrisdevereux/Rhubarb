@@ -1,7 +1,9 @@
 import { Data } from './datasource/Data';
+import { Theme } from './frontend/Theme';
 
 export interface Application {
   modules: Module[]
+  theme: Theme
 }
 
 export interface Module {

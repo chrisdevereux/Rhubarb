@@ -27,6 +27,7 @@
     "husky": "^1.1.1",
     "jest": "^23.6.0",
     "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
     "ts-jest": "^23.10.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
@@ -34,18 +35,15 @@
     "typescript": "^3.1.1"
   },
   "scripts": {
-    "commitmsg": "commitlint -E GIT_PARAMS",
     "test": "jest",
     "start": "node examples/start-example",
-    "precommit": "lint-staged",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "lint-staged": {
-    "*.(js|ts|tsx|jsx)": [
+    "*.{js,ts,tsx,jsx}": [
       "prettier --write",
       "tslint --fix",
-      "tsc --noemit",
       "git add"
     ]
   },
@@ -54,6 +52,12 @@
     "tabWidth": 2,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsc --noemit && lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   },
   "commitlint": {
     "extends": [

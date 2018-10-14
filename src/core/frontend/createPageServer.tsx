@@ -1,17 +1,17 @@
 import { extractCritical } from 'emotion-server'
-import * as express from 'express';
+import * as express from 'express'
 import * as React from 'react'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import Helmet from 'react-helmet'
 import { StaticRouter, StaticRouterContext } from 'react-router'
 import * as serialize from 'serialize-javascript'
-import { Application } from '../types';
-import { getPageBundles } from './page';
+import { Application } from '../types'
+import { getPageBundles } from './page'
 
 export async function createPageServer(app: Application) {
   const server = express()
 
-  getPageBundles(app).forEach(async (route) => {
+  getPageBundles(app).forEach(async route => {
     const Component = require(route.source).default
 
     server.get(route.pattern, async (req, res) => {
@@ -21,8 +21,8 @@ export async function createPageServer(app: Application) {
       const { html, ids, css } = extractCritical(
         renderToString(
           <StaticRouter location={req.baseUrl} context={context}>
-            <Component data={data}/>
-          </StaticRouter>
+            <Component data={data} />
+          </StaticRouter>,
         ),
       )
 
@@ -31,8 +31,8 @@ export async function createPageServer(app: Application) {
       }
 
       const helmet = Helmet.renderStatic()
-      
-      const document = (
+
+      const document =
         '<!DOCTYPE html>' +
         renderToStaticMarkup(
           <html {...helmet.htmlAttributes.toComponent()}>
@@ -49,23 +49,21 @@ export async function createPageServer(app: Application) {
               {helmet.title.toComponent()}
             </head>
             <body {...helmet.bodyAttributes.toComponent()}>
-              <div
-                id="root"
-                dangerouslySetInnerHTML={{ __html: html }}
-              />
+              <div id="root" dangerouslySetInnerHTML={{ __html: html }} />
             </body>
             <script
               dangerouslySetInnerHTML={{
-                __html: `__CRITICAL_CSS__=${serialize(ids)};__INITIAL_DATA__=${serialize(data)}`,
+                __html: `__CRITICAL_CSS__=${serialize(
+                  ids,
+                )};__INITIAL_DATA__=${serialize(data)}`,
               }}
             />
             <script defer src="/bundle.js" />
-          </html>
+          </html>,
         )
-      )
 
       res.writeHead(context.status || 200, {
-        'content-type': 'text/html'
+        'content-type': 'text/html',
       })
       res.write(document)
       res.end()

@@ -1,5 +1,5 @@
-import { defaultTheme } from '../frontend/defaultTheme';
-import { Application, Module, Page } from '../types';
+import { defaultTheme } from '../frontend/Theme'
+import { Application, Module, Page } from '../types'
 
 interface CreateApplicationProps {
   modules: Module[]
@@ -8,7 +8,7 @@ interface CreateApplicationProps {
 export function createApplication(props: CreateApplicationProps): Application {
   return {
     ...props,
-    theme: defaultTheme
+    theme: defaultTheme,
   }
 }
 

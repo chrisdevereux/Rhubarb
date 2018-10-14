@@ -1,6 +1,6 @@
+import { CSSObject } from 'create-emotion';
 import { themed, ThemedProps } from '../../core/frontend/Theme';
 import { spacing, transparent } from "./values";
-import { CSSObject } from 'create-emotion';
 
 export interface SpacedProps extends ThemedProps {
   spacing?: number

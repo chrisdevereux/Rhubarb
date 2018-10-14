@@ -1,6 +1,10 @@
-import { AlignItemsProperty } from 'csstype';
+import { AlignItemsProperty } from 'csstype'
 import styled from 'react-emotion'
-import { horizontalSpacedMixin, SpacedProps, verticalSpacedMixin } from '../util/mixins';
+import {
+  horizontalSpacedMixin,
+  SpacedProps,
+  verticalSpacedMixin,
+} from '../util/mixins'
 
 interface GridProps extends SpacedProps {
   alignV?: Alignment
@@ -14,7 +18,7 @@ export const Rows = styled('div')(
     display: 'flex',
     flexDirection: 'column',
     alignItems: getAlignment(alignH),
-    justifyContent: getAlignment(alignV)
+    justifyContent: getAlignment(alignV),
   }),
   verticalSpacedMixin,
 )
@@ -24,7 +28,7 @@ export const Columns = styled('div')(
     display: 'flex',
     flexDirection: 'row',
     alignItems: getAlignment(alignV),
-    justifyContent: getAlignment(alignH)
+    justifyContent: getAlignment(alignH),
   }),
   horizontalSpacedMixin,
 )
@@ -37,6 +41,6 @@ function getAlignment(alignment?: Alignment): AlignItemsProperty | undefined {
   if (alignment === 'end') {
     return 'flex-end'
   }
-  
+
   return alignment
 }
